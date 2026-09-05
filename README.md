@@ -40,8 +40,9 @@ Ensure you have the following installed on your local machine:
 
 Install dependencies
 
-Bash: npm install
-
+```Bash: 
+npm install
+```
 Set up Environment Variables
 Create a .env file in the root directory:
 PORT=4000
