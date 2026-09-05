@@ -73,7 +73,7 @@ npm start
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | `GET` | `/api/articles` | Get all articles (supports `page`, `limit`) |
-| 'GET' | '/api/articles?page=1&limit=2&category=Housing' | `category` query parameters (supports 'page', 'limit', 'category') |
+| `GET` | `/api/articles/?page=1&limit=2&category=Housing` | `category` query parameters (supports `page`, `limit`, `category`) |
 | `GET` | `/api/articles/search?q=keyword` | Search articles using text index |
 | `GET` | `/api/articles/:id` | Get a single article by ID (increments view count) |
 | `POST` | `/api/articles` | Create a new article |
