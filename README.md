@@ -49,12 +49,12 @@ MONGO_URI=mongodb://localhost:27017/blog_db
 
 Start the server
 
-Bash
+```Bash
 # Development mode
 npm run dev
 # Production mode
 npm start
-
+```
 
 ## Data Schema
 ```javascript
