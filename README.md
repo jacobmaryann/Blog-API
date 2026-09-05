@@ -38,12 +38,12 @@ Ensure you have the following installed on your local machine:
    git clone [https://github.com/jacobmaryann/Blog-API.git](https://github.com/jacobmaryann/Blog-API.git)
    cd Blog-API
 
-Install dependencies
+2. **Install dependencies**
 
 ```Bash: 
 npm install
 ```
-Set up Environment Variables
+3. **Set up Environment Variables**
 Create a .env file in the root directory:
 PORT=4000
 MONGO_URI=mongodb://localhost:27017/blog_db
