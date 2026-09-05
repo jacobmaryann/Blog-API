@@ -66,7 +66,7 @@ npm start
   category: String (enum: ['Technology', 'General', 'Housing'], default: 'General'),
   views: Number (default: 0),
 };
-
+```
 
 ### API Endpoints
 ### Articles (`/api/articles`)
