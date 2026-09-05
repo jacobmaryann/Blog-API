@@ -81,19 +81,25 @@ npm start
 | `DELETE` | `/api/articles/:id` | Delete an article by ID |
 
 
-Example Request & Response 
-Create Article (POST /api/articles)
-Request Body:
-JSON{
+## Example Request & Response 
+
+### Create Article (`POST /api/articles`)
+
+**Request Body:**
+```json
+{
   "title": "Getting Started with Node.js and Express",
   "content": "Node.js is an open-source, cross-platform JavaScript runtime environment that allows developers to execute JavaScript code outside of a web browser.",
   "author": "Mary",
   "status": "published",
   "category": "Technology"
-}
+};
+```
+
 
 Response (200 Created):
-JSON{
+```JSON 
+{
   "message": "Article created successfully",
   "data": {
     "_id": "6a9c74282cf274b4f668923c",
@@ -106,7 +112,8 @@ JSON{
     "createdAt": "2026-09-05T19:57:28.353Z",
     "updatedAt": "2026-09-05T19:57:28.353Z"
   }
-}
+};
+```
 
 ## Testing with Postman
 
