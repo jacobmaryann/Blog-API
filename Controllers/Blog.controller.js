@@ -6,7 +6,6 @@ const PostArticle = async (req, res, next) => {
     const BlogSchema = Joi.object({
         title: Joi.string().min(3).required(),
         content: Joi.string().min(20).required(),
-        author: Joi.string().optional().default('Guest'),
         status: Joi.string().valid('draft', 'published').default('draft'),
         category: Joi.string().valid('Technology', 'General', 'Housing').required()
     });
@@ -17,7 +16,10 @@ const PostArticle = async (req, res, next) => {
         return res.status(400).json({ message: error.details[0].message })
     }
     try {
-        const newArticle = new BlogModel(value);
+        const newArticle = new BlogModel({...value,
+            author: req.user._id,
+            
+        });
         await newArticle.save();
         return res.status(200).json({ message: "Article created successfully", data: newArticle });
     }
@@ -37,7 +39,8 @@ const getAllArticle = async (req, res, next) => {
         if (req.query.category) {
             filter.category = req.query.category
         }
-        const articles = await BlogModel.find(filter).sort({ createdAt: -1 }).limit(limit).skip(skip);
+        console.log(req.user);
+        const articles = await BlogModel.find(filter).sort({ createdAt: -1 }).limit(limit).skip(skip).populate('author', 'name _id email');
         return res.status(200).json({
             data: articles
         });
@@ -90,7 +93,6 @@ const updateArticleById = async (req, res, next) => {
     const BlogSchema = Joi.object({
         title: Joi.string().min(3).optional(),
         content: Joi.string().min(20).optional(),
-        author: Joi.string().optional(),
         status: Joi.string().valid('draft', 'published').optional(),
         category: Joi.string().valid('Technology', 'General', 'Housing').optional()
     });
@@ -101,7 +103,12 @@ const updateArticleById = async (req, res, next) => {
     }
 
     try {
-        const updatedArticle = await BlogModel.findByIdAndUpdate(req.params.id, { ...value },
+
+        const article = await BlogModel.findById(req.params.id);
+        if (!article.author.equals(req.user._id)) {
+            return res.status(403).json({ message: "You are not authorized to update this article" });
+        }
+        const updatedArticle = await BlogModel.findByIdAndUpdate(req.params.id, { ...value},
             {
                 new: true,
                 runValidators: true
@@ -127,10 +134,17 @@ const deleteArticleById = async (req, res, next) => {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(400).json({ message: "Invalid article ID format" });
         }
-        const article = await BlogModel.findByIdAndDelete(req.params.id);
+        const article = await BlogModel.findById(req.params.id);
         if (!article) {
             return res.status(404).json(`Article ${req.params.id} not found`)
         }
+
+        if (!article.author.equals(req.user._id)) {
+            return res.status(403).json({ message: "You are not authorized to delete this article" });
+        }
+
+        await BlogModel.findByIdAndDelete(req.params.id);
+
         return res.status(200).json(`Article ${req.params.id} deleted successfully`)
     } catch (error) {
         console.error(error)
